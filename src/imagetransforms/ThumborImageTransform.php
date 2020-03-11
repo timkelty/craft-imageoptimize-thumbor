@@ -77,7 +77,9 @@ class ThumborImageTransform extends ImageTransform
             $this->securityKey = Craft::parseEnv($this->securityKey);
         }
 
-        return (string)$this->getUrlBuilderForTransform($asset, $transform);
+        $builder = $this->getUrlBuilderForTransform($asset, $transform);
+
+        return str_replace('unsafe/', '', (string) $builder);
     }
 
     /**
@@ -94,7 +96,8 @@ class ThumborImageTransform extends ImageTransform
         $builder = $this->getUrlBuilderForTransform($asset, $transform)
             ->addFilter('format', 'webp');
 
-        return (string)$builder;
+
+        return str_replace('unsafe/', '', (string) $builder);
     }
 
     /**
@@ -118,7 +121,7 @@ class ThumborImageTransform extends ImageTransform
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    private function getUrlBuilderForTransform(Asset $asset, $transform)
+    private function getUrlBuilderForTransform(Asset $asset, $transform): UrlBuilder
     {
         $assetUri = $this->getAssetUri($asset);
         $builder = UrlBuilder::construct($this->baseUrl, $this->securityKey, $assetUri);
@@ -173,8 +176,7 @@ class ThumborImageTransform extends ImageTransform
             }
         }
 
-        // Temp fix for DLR
-        return str_replace('unsafe/', '', (string) $builder);
+        return $builder;
     }
 
     /**
