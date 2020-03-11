@@ -10,14 +10,14 @@
 
 namespace nystudio107\imageoptimizethumbor\imagetransforms;
 
+use Craft;
+use craft\elements\Asset;
+
+use craft\models\AssetTransform;
 use nystudio107\imageoptimize\ImageOptimize;
 use nystudio107\imageoptimize\imagetransforms\ImageTransform;
 
-use craft\elements\Asset;
-use craft\models\AssetTransform;
 use Thumbor\Url\Builder as UrlBuilder;
-
-use Craft;
 
 /**
  * @author    nystudio107
@@ -118,7 +118,7 @@ class ThumborImageTransform extends ImageTransform
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    private function getUrlBuilderForTransform(Asset $asset, $transform): UrlBuilder
+    private function getUrlBuilderForTransform(Asset $asset, $transform)
     {
         $assetUri = $this->getAssetUri($asset);
         $builder = UrlBuilder::construct($this->baseUrl, $this->securityKey, $assetUri);
@@ -173,7 +173,8 @@ class ThumborImageTransform extends ImageTransform
             }
         }
 
-        return $builder;
+        // Temp fix for DLR
+        return str_replace('unsafe/', '', (string) $builder);
     }
 
     /**
