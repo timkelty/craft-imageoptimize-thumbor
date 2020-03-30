@@ -238,7 +238,7 @@ class ThumborImageTransform extends ImageTransform
      */
     public function getAssetUri(Asset $asset)
     {
-        $uri = parent::getAssetUri($asset);
+        $uri = Craft::parseEnv(parent::getAssetUri($asset));
         $volume = $asset->getVolume();
 
         if ($this->includeBucketPrefix && ($volume->bucket ?? null)) {
