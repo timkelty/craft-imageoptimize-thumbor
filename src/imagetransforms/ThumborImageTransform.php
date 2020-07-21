@@ -187,10 +187,6 @@ class ThumborImageTransform extends ImageTransform
             $builder->addFilter('quality', $quality);
         }
 
-        if (property_exists($transform, 'interlace')) {
-            Craft::warning('Thumbor enables progressive JPEGs on the server-level, not as a request option. See https://thumbor.readthedocs.io/en/latest/jpegtran.html', __METHOD__);
-        }
-
         if ($settings->autoSharpenScaledImages) {
             // See if the image has been scaled >= 50%
             $widthScale = $asset->getWidth() / ($transform->width ?? $asset->getWidth());
